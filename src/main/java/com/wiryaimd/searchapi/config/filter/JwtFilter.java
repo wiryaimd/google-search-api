@@ -49,6 +49,11 @@ public class JwtFilter extends OncePerRequestFilter {
                 }).orElseThrow(() -> new BadCredentialsException("Invalid token"));
 
         Map<String, Object> jwt = jwtHelper.validateToken(token);
+        if (jwt == null){
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         List<SimpleGrantedAuthority> roles = Arrays.stream(jwt.get("roles").toString().split(",")).map(new Function<String, SimpleGrantedAuthority>() {
             @Override
             public SimpleGrantedAuthority apply(String s) {
@@ -63,6 +68,6 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return !request.getRequestURI().startsWith("api/login/") && HttpMethod.POST.matches(request.getMethod());
+        return !request.getRequestURI().startsWith("/api/login/") && HttpMethod.POST.matches(request.getMethod());
     }
 }

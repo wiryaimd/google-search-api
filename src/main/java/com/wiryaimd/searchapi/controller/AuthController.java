@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/api")
@@ -32,7 +34,7 @@ public class AuthController {
     public ResponseEntity<AuthResDto> auth(@RequestBody AuthReqDto authReqDto){
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authReqDto.username(), authReqDto.password()));
 
-        long current = System.currentTimeMillis();
+        long current = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(5);
         return ResponseEntity.ok(new AuthResDto(
                 jwtHelper.generateToken(authReqDto.username(), Map.of("roles", "free"), current),
                 current

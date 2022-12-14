@@ -11,12 +11,26 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "tb_users")
-public record UserModel(
-        @Id @GeneratedValue(strategy = GenerationType.UUID) UUID id,
-        String username,
-        String password,
-        List<SimpleGrantedAuthority> roles
-) implements UserDetails {
+public class UserModel implements UserDetails {
+
+    private @Id @GeneratedValue(strategy = GenerationType.UUID) UUID id;
+    private String username;
+    private String password;
+    private List<SimpleGrantedAuthority> roles;
+
+    public UserModel() {
+    }
+
+    public UserModel(UUID id, String username, String password, List<SimpleGrantedAuthority> roles) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    public UUID getId() {
+        return id;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
