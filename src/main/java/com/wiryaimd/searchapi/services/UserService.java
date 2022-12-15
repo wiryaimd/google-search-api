@@ -2,6 +2,7 @@ package com.wiryaimd.searchapi.services;
 
 import com.wiryaimd.searchapi.dto.req.AuthReqDto;
 import com.wiryaimd.searchapi.dto.req.UserReqDto;
+import com.wiryaimd.searchapi.model.RoleModel;
 import com.wiryaimd.searchapi.model.UserModel;
 import com.wiryaimd.searchapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +32,10 @@ public class UserService {
     }
 
     public UserModel saveUser(UserReqDto userReqDto){
-        List<SimpleGrantedAuthority> roles = Arrays.stream(userReqDto.roles().split(",")).map(new Function<String, SimpleGrantedAuthority>() {
+        List<RoleModel> roles = Arrays.stream(userReqDto.roles().split(",")).map(new Function<String, RoleModel>() {
             @Override
-            public SimpleGrantedAuthority apply(String s) {
-                return new SimpleGrantedAuthority(s);
+            public RoleModel apply(String s) {
+                return new RoleModel(new SimpleGrantedAuthority(s));
             }
         }).toList();
 

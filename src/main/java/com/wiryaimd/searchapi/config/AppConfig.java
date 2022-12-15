@@ -1,8 +1,10 @@
 package com.wiryaimd.searchapi.config;
 
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.firestore.Firestore;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.cloud.FirestoreClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -34,4 +36,8 @@ public class AppConfig {
         }
     }
 
+    @Bean
+    public Firestore firestore(FirebaseApp firebaseApp){
+        return FirestoreClient.getFirestore(firebaseApp);
+    }
 }

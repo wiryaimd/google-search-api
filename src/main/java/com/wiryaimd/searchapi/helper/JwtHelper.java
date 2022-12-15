@@ -21,15 +21,10 @@ public class JwtHelper {
     private String secretKey;
 
     public Map<String, Object> validateToken(String token) {
-        try{
-            return Jwts.parser()
-                    .setSigningKey(secretKey)
-                    .parseClaimsJws(token)
-                    .getBody();
-        }catch (JwtException e){
-            e.printStackTrace();
-            return null;
-        }
+        return Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     public String generateToken(String subject, Map<String, Object> claims, long current){

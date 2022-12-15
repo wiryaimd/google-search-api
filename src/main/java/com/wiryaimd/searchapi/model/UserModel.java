@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Function;
 
 @Entity
 @Table(name = "tb_users")
@@ -16,16 +17,23 @@ public class UserModel implements UserDetails {
     private @Id @GeneratedValue(strategy = GenerationType.UUID) UUID id;
     private String username;
     private String password;
-    private List<SimpleGrantedAuthority> roles;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "id_user"),
+            inverseJoinColumns = @JoinColumn(name = "id_role")
+    )
+    private List<RoleModel> roleList;
 
     public UserModel() {
     }
 
-    public UserModel(UUID id, String username, String password, List<SimpleGrantedAuthority> roles) {
+    public UserModel(UUID id, String username, String password, List<RoleModel> roles) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.roles = roles;
+        this.roleList = roles;
     }
 
     public UUID getId() {
@@ -34,7 +42,12 @@ public class UserModel implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return roleList.stream().map(new Function<RoleModel, SimpleGrantedAuthority>() {
+            @Override
+            public SimpleGrantedAuthority apply(RoleModel roleModel) {
+                return roleModel.getRole();
+            }
+        }).toList();
     }
 
     @Override

@@ -49,10 +49,6 @@ public class JwtFilter extends OncePerRequestFilter {
                 }).orElseThrow(() -> new BadCredentialsException("Invalid token"));
 
         Map<String, Object> jwt = jwtHelper.validateToken(token);
-        if (jwt == null){
-            filterChain.doFilter(request, response);
-            return;
-        }
 
         List<SimpleGrantedAuthority> roles = Arrays.stream(jwt.get("roles").toString().split(",")).map(new Function<String, SimpleGrantedAuthority>() {
             @Override
