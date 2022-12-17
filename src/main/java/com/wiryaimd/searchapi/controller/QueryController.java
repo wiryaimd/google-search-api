@@ -21,7 +21,8 @@ public class QueryController {
     public ResponseEntity<QueryResDto> query(@RequestParam String query){
         logger.info("query: " + query);
 
-        return ResponseEntity.ok(null);
+        QueryResDto queryResDto = queryServices.query(query);
+        return ResponseEntity.status(queryResDto.getStatusCode()).body(queryResDto);
     }
 
 }

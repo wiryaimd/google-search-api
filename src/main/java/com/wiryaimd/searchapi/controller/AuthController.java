@@ -34,7 +34,7 @@ public class AuthController {
     public ResponseEntity<AuthResDto> auth(@RequestBody AuthReqDto authReqDto){
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authReqDto.username(), authReqDto.password()));
 
-        long current = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(5);
+        long current = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(10);
         return ResponseEntity.ok(new AuthResDto(
                 jwtHelper.generateToken(authReqDto.username(), Map.of("roles", "free"), current),
                 current
