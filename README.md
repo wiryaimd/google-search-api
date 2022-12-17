@@ -1,6 +1,6 @@
 # google-search-api
 
-a special scraper that bypass recaptcha for search any website by any keyword using REST API (JSON produces)
+a special scraper that bypass recaptcha to search any website by any keyword using REST API (JSON produces)
 
 ## Prerequisites
 * Java 17
