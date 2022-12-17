@@ -54,9 +54,7 @@ This spring app will only send the requested query to private server and will li
 Theres no contains scraping process in this code because they are implemented in another code projects
 
 The endpoint also need jwt to get accessed via ``localhost:8080/api/auth``
-
 for more configuration will updated soon
-
 ```bash
 mvn spring-boot:run 
 ./gradlew bootRun
